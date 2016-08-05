@@ -28,7 +28,7 @@ class DbBackend implements DbContract {
         String tables = ARTISTS;
 
         String[] columns = new String[]{
-                ARTISTS + "." + Artists.ID + " AS _id",
+                ARTISTS + "." + Artists.ID,
                 ARTISTS + "." + Artists.NAME,
                 ARTISTS + "." + Artists.TRACKS,
                 ARTISTS + "." + Artists.ALBUMS,
@@ -38,8 +38,7 @@ class DbBackend implements DbContract {
                 ARTISTS + "." + Artists.COVER_BIG
         };
 
-        String orderBy = Artists.NAME + " ASC";
-        Cursor c = db.query(tables, columns, null, null, null, null, orderBy);
+        Cursor c = db.query(tables, columns, null, null, null, null, null);
 
         if (c != null) {
             c.moveToFirst();
@@ -51,10 +50,10 @@ class DbBackend implements DbContract {
     public Cursor getGenresByArtist(Long artistId) {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
         String tables = GENRES + " INNER JOIN " + ARTISTS_GENRES +
-                " ON " + ARTISTS + "." + Artists.ID + "=" + ARTISTS_GENRES + "." + ArtistsGenres.ARTIST_ID;
+                " ON " + GENRES + "." + Genres.ID + "=" + ARTISTS_GENRES + "." + ArtistsGenres.ARTIST_ID;
 
         String[] columns = new String[]{
-                GENRES + "." + Genres.ID + " AS _id",
+                GENRES + "." + Genres.ID,
                 GENRES + "." + Genres.NAME
         };
 

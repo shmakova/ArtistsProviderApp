@@ -19,6 +19,17 @@ public class Artist implements Parcelable {
     private String description;
     private String link;
 
+    private Artist(int id, String name, List<String> genres, Cover cover, int tracks, int albums, String description, String link) {
+        this.id = id;
+        this.name = name;
+        this.genres = genres;
+        this.cover = cover;
+        this.tracks = tracks;
+        this.albums = albums;
+        this.description = description;
+        this.link = link;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -98,5 +109,60 @@ public class Artist implements Parcelable {
     @Override
     public String toString() {
         return "Artist: " + name;
+    }
+
+    public static class Builder {
+        private int id;
+        private String name;
+        private List<String> genres;
+        private Cover cover;
+        private int tracks;
+        private int albums;
+        private String description;
+        private String link;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setGenres(List<String> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public Builder setCover(Cover cover) {
+            this.cover = cover;
+            return this;
+        }
+
+        public Builder setTracks(int tracks) {
+            this.tracks = tracks;
+            return this;
+        }
+
+        public Builder setAlbums(int albums) {
+            this.albums = albums;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setLink(String link) {
+            this.link = link;
+            return this;
+        }
+
+        public Artist build() {
+            return new Artist(id, name, genres, cover, tracks, albums, description, link);
+        }
     }
 }

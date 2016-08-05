@@ -41,14 +41,14 @@ public class DbProvider {
 
     public void getArtistsList(final ResultCallback<Cursor> callback) {
         executor.execute(() -> {
-            final Cursor c =  dbBackend.getArtistsList();
+            final Cursor c = dbBackend.getArtistsList();
             handler.post(() -> callback.onFinished(c));
         });
     }
 
     public void getGenresByArtist(Long artistId, final ResultCallback<Cursor> callback) {
         executor.execute(() -> {
-            final Cursor c =  dbBackend.getGenresByArtist(artistId);
+            final Cursor c = dbBackend.getGenresByArtist(artistId);
             handler.post(() -> callback.onFinished(c));
         });
     }
@@ -60,10 +60,15 @@ public class DbProvider {
         });
     }
 
-    // TODO: make me multi-threaded!
+
     class CustomExecutor extends ThreadPoolExecutor {
         CustomExecutor() {
-            super(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            super(
+                    Runtime.getRuntime().availableProcessors() * 2,
+                    Runtime.getRuntime().availableProcessors() * 2,
+                    0L,
+                    TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<>());
         }
     }
 }
