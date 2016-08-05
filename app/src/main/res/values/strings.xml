@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Artists Provider App</string>
+    <string name="content">Hello</string>
+    <string name="main_activity_name">Исполнители</string>
+</resources>
