@@ -69,34 +69,10 @@ public class DbBackendTest implements DbContract {
                         cursor.getString(cursor.getColumnIndex(Artists.COVER_SMALL)));
                 Assert.assertEquals(artistList.get(i).getCover().getBig(),
                         cursor.getString(cursor.getColumnIndex(Artists.COVER_BIG)));
+                Assert.assertEquals(artistList.get(i).getGenresString(),
+                        cursor.getString(cursor.getColumnIndex(Artists.GENRES_LIST)));
                 i++;
             } while (cursor.moveToNext());
-        }
-    }
-
-    @Test
-    public void testGetGenresByArtist() {
-        DbOpenHelper helper = new DbOpenHelper(RuntimeEnvironment.application);
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        DbBackend dbBackend = new DbBackend(helper);
-
-        Artist artist = getArtist2();
-        List<Artist> artistList = new ArrayList<>();
-        artistList.add(artist);
-
-        dbBackend.insertArtistsList(artistList);
-        Cursor cursor = dbBackend.getArtistsList();
-        cursor.moveToFirst();
-        Long artistId = cursor.getLong(cursor.getColumnIndex(Artists.ID));
-        Cursor genreCursor = dbBackend.getGenresByArtist(artistId);
-        Assert.assertEquals(artist.getGenres().size(), getCount(db, GENRES));
-
-        if (genreCursor != null && genreCursor.moveToFirst()) {
-            do {
-                Assert.assertTrue(artist.getGenres().contains(
-                        genreCursor.getString(genreCursor.getColumnIndex(Genres.NAME))));
-            } while (genreCursor.moveToNext());
         }
     }
 
@@ -106,7 +82,7 @@ public class DbBackendTest implements DbContract {
     }
 
 
-    private Artist getArtist1() {
+    private Artist getArtist2() {
         List<String> genres = new ArrayList<>();
         genres.add("rusrock");
 
@@ -126,7 +102,7 @@ public class DbBackendTest implements DbContract {
                 .build();
     }
 
-    private Artist getArtist2() {
+    private Artist getArtist1() {
         List<String> genres = new ArrayList<>();
         genres.add("pop");
         genres.add("rnb");

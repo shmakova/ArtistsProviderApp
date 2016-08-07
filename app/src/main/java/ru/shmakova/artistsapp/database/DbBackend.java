@@ -25,7 +25,10 @@ class DbBackend implements DbContract {
 
     public Cursor getArtistsList() {
         SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-        String tables = ARTISTS;
+        String tables = ARTISTS + " INNER JOIN " + ARTISTS_GENRES + " ON " +
+                ARTISTS + "." + Artists.ID + "=" + ARTISTS_GENRES + "." + ArtistsGenres.ARTIST_ID +
+                " INNER JOIN " + GENRES + " ON " +
+                ARTISTS_GENRES + "." + ArtistsGenres.GENRE_ID + "=" + GENRES + "." + Genres.ID;
 
         String[] columns = new String[]{
                 ARTISTS + "." + Artists.ID,
@@ -35,32 +38,12 @@ class DbBackend implements DbContract {
                 ARTISTS + "." + Artists.DESCRIPTION,
                 ARTISTS + "." + Artists.LINK,
                 ARTISTS + "." + Artists.COVER_SMALL,
-                ARTISTS + "." + Artists.COVER_BIG
+                ARTISTS + "." + Artists.COVER_BIG,
+                "GROUP_CONCAT(" + GENRES + "." + Genres.NAME + ") AS " + Artists.GENRES_LIST
         };
 
-        Cursor c = db.query(tables, columns, null, null, null, null, null);
-
-        if (c != null) {
-            c.moveToFirst();
-        }
-
-        return c;
-    }
-
-    public Cursor getGenresByArtist(Long artistId) {
-        SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
-        String tables = GENRES + " INNER JOIN " + ARTISTS_GENRES +
-                " ON " + GENRES + "." + Genres.ID + "=" + ARTISTS_GENRES + "." + ArtistsGenres.ARTIST_ID;
-
-        String[] columns = new String[]{
-                GENRES + "." + Genres.ID,
-                GENRES + "." + Genres.NAME
-        };
-
-        String where = ArtistsGenres.ARTIST_ID + " = ?";
-        String[] whereArgs = new String[]{String.valueOf(artistId)};
-        String orderBy = Genres.NAME + " ASC";
-        Cursor c = db.query(tables, columns, where, whereArgs, null, null, orderBy);
+        String groupBy = ARTISTS + "." + Artists.NAME;
+        Cursor c = db.query(tables, columns, null, null, groupBy, null, null);
 
         if (c != null) {
             c.moveToFirst();

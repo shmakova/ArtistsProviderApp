@@ -63,7 +63,7 @@ public class Artist implements Parcelable {
     }
 
     public String getGenresString() {
-        return TextUtils.join(", ", genres);
+        return TextUtils.join(",", genres);
     }
 
     @Override

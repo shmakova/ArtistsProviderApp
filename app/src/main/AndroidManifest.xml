@@ -22,10 +22,10 @@
             </intent-filter>
         </activity>
 
-        <!--<provider-->
-            <!--android:name="ru.shmakova.artistsapp.database.DbProvider"-->
-            <!--android:authorities="ru.shmakova.artistsapp"-->
-            <!--android:exported="true"/>-->
+        <provider
+            android:name="ru.shmakova.artistsapp.database.ArtistsContentProvider"
+            android:authorities="ru.shmakova.artistsapp"
+            android:exported="true"/>
     </application>
 
 </manifest>

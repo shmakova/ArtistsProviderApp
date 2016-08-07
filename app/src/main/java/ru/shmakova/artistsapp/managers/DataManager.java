@@ -5,9 +5,6 @@ import android.content.Context;
 import java.util.List;
 
 import retrofit2.Call;
-import ru.shmakova.artistsapp.database.DbNotificationManager;
-import ru.shmakova.artistsapp.database.DbProvider;
-import ru.shmakova.artistsapp.database.FakeContainer;
 import ru.shmakova.artistsapp.network.ServiceGenerator;
 import ru.shmakova.artistsapp.network.YandexService;
 import ru.shmakova.artistsapp.network.models.Artist;
@@ -19,13 +16,9 @@ import ru.shmakova.artistsapp.network.models.Artist;
 public class DataManager {
     private static DataManager INSTANCE = null;
     private YandexService yandexService;
-    private DbProvider dbProvider;
-    private DbNotificationManager dbNotificationManager;
 
     private DataManager(Context context) {
         this.yandexService = ServiceGenerator.createService(YandexService.class, context);
-        dbProvider = FakeContainer.getProviderInstance(context.getApplicationContext());
-        dbNotificationManager = FakeContainer.getNotificationInstance(context.getApplicationContext());
     }
 
     public static DataManager getInstance(Context context) {
@@ -39,6 +32,4 @@ public class DataManager {
     public Call<List<Artist>> getArtistsList() {
         return yandexService.getArtistsList();
     }
-
-
 }

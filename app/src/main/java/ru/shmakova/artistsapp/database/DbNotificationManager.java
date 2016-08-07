@@ -9,7 +9,7 @@ public class DbNotificationManager {
 
     private HashSet<Listener> listeners = new HashSet<>();
     private Handler handler = new Handler(Looper.getMainLooper());
-    private Runnable notifyRunnable = () -> notifyOnUiThread();
+    private Runnable notifyRunnable = this::notifyOnUiThread;
 
     public interface Listener {
         void onDataUpdated();
