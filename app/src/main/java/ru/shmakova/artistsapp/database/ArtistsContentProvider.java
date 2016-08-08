@@ -46,6 +46,11 @@ public class ArtistsContentProvider extends ContentProvider {
 
                 try {
                     cursor = dbProvider.getArtistsList();
+
+                    if (cursor == null) {
+                        saveArtistsToDb();
+                        cursor = dbProvider.getArtistsList();
+                    }
                 } catch (ExecutionException | InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -61,8 +66,7 @@ public class ArtistsContentProvider extends ContentProvider {
     public boolean onCreate() {
         dataManager = DataManager.getInstance(getContext());
         dbProvider = FakeContainer.getProviderInstance(getContext());
-        saveArtistsToDb();
-        return false;
+        return true;
     }
 
     @Nullable
